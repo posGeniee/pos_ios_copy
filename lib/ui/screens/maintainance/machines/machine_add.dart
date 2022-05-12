@@ -106,9 +106,9 @@ class _AddMachineScreenState extends State<AddMachineScreen> {
                 TextInputAction.next,
                 readOnly: false,
               ),
-              UserImagePicker(
-                imagePickFn: _pickedImage,
-              ),
+              // UserImagePicker(
+              //   imagePickFn: _pickedImage,
+              // ),
 
               // Text(_imageFileCamera!.path),
             ],

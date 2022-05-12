@@ -96,9 +96,9 @@ class _PartsMainAddScreenState extends State<PartsMainAddScreen> {
                 TextInputAction.next,
                 readOnly: false,
               ),
-              UserImagePicker(
-                imagePickFn: _pickedImage,
-              ),
+              // UserImagePicker(
+              //   imagePickFn: _pickedImage,
+              // ),
             ],
           ),
         ),

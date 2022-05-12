@@ -149,9 +149,9 @@ class _ScheduleAddState extends State<ScheduleAdd> {
               newAppField(descriptionField, 'Description', TextInputType.name,
                   [], TextInputAction.next,
                   readOnly: false),
-              UserImagePicker(
-                imagePickFn: _pickedImage,
-              ),
+              // UserImagePicker(
+              //   imagePickFn: _pickedImage,
+              // ),
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: DropdownButtonFormField(

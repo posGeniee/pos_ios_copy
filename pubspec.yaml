@@ -70,7 +70,7 @@ dependencies:
   geolocator: ^8.2.0
   # Camera Access 
   fast_barcode_scanner: ^1.1.4
-  image_picker: ^0.8.5+2
+  # image_picker: ^0.8.5+2
 
 dev_dependencies:
   flutter_test:
