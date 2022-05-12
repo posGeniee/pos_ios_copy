@@ -6,6 +6,10 @@
 	<string>This app need the to get the user location when open </string>	
 	<key>NSLocationWhenInUseUsageDescription</key>	
 	<string>This app need the to get the user location when in the background </string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to your phone’s camera for scanning barcodes and taking images of user</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to your phone’s camera for scanning barcodes and taking images of user from gallery</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
