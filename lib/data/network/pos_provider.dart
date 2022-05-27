@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:dummy_app/data/models/item%20search%20model/scan_bar_code.dart';
 import 'package:dummy_app/data/models/pos/mix_and_match_pos.dart';
-import 'package:catcher/catcher.dart';
+import 'package:dummy_app/main.dart';
+// import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +140,7 @@ class PosSectionProvider with ChangeNotifier {
   removeAll() {
     _list = [];
     edgeAlert(
-      Catcher.navigatorKey!.currentState!.context,
+      navKey.currentState!.context,
       title: 'Transaction SuccessFul',
       backgroundColor: Colors.green,
     );
@@ -503,7 +504,8 @@ class PosSectionProvider with ChangeNotifier {
                       int.parse(mixMatchDatum.quantity);
                   print('dis_times : $dis_times');
                   double discount = 0.0;
-                  discount = dis_times.toInt() * double.parse(mixMatchDatum.discount);
+                  discount =
+                      dis_times.toInt() * double.parse(mixMatchDatum.discount);
                   barCodeDatum.discount = discount.toInt();
 
                   _totalDiscount = 0;
@@ -520,10 +522,11 @@ class PosSectionProvider with ChangeNotifier {
 
                     element_list.mixmatchGroupIdApply.where((element3) {
                       if (element3 == barCodeDatum.id) {
-                          element_list.mixMatchGroupApplied = true;
-                          element_list.subtotalAfterDiscount = (double.parse(element_list.subTotal) - discount);
-                          print(
-                              '>>>>>>>>>proName : ${element_list.proName} ... element_list.subTotal : ${element_list.subTotal} ... subtotalAfterDiscount : ${element_list.subtotalAfterDiscount} ... _tototalAmount : $_tototalAmount');
+                        element_list.mixMatchGroupApplied = true;
+                        element_list.subtotalAfterDiscount =
+                            (double.parse(element_list.subTotal) - discount);
+                        print(
+                            '>>>>>>>>>proName : ${element_list.proName} ... element_list.subTotal : ${element_list.subTotal} ... subtotalAfterDiscount : ${element_list.subtotalAfterDiscount} ... _tototalAmount : $_tototalAmount');
                       }
                       return false;
                     }).toList();
@@ -563,9 +566,9 @@ class PosSectionProvider with ChangeNotifier {
 
         //Remove id...
         element.mixmatchGroupIdApply.where((elementMixMatchId) {
-            print('1. elementMixMatchId : ${elementMixMatchId}');
-            element.mixmatchGroupIdApply.remove(element.id);
-            print('2. elementMixMatchId : ${elementMixMatchId}');
+          print('1. elementMixMatchId : ${elementMixMatchId}');
+          element.mixmatchGroupIdApply.remove(element.id);
+          print('2. elementMixMatchId : ${elementMixMatchId}');
           return false;
         }).toList();
         //Set mixMatch default to false...
@@ -600,7 +603,8 @@ List<ScanBarCodeDatum> dummyListConverter(String str) =>
         json.decode(str).map((x) => ScanBarCodeDatum.fromMap(x)));
 
 //Dummy Products
-String dummyDataPos = '''[      {
+String dummyDataPos =
+    '''[      {
                 "id": 328484,
                 "product_code": "82193",
                 "pro_name": "DURANGO CHILITOS 1 LB",

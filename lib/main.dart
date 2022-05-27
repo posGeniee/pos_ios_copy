@@ -79,7 +79,7 @@ import 'package:dummy_app/ui/screens/receipts/receipt_main.dart';
 import 'package:dummy_app/ui/screens/support_ticket/create_ticket.dart';
 import 'package:dummy_app/ui/screens/support_ticket/list_of_ticket.dart';
 import 'package:dummy_app/ui/screens/support_ticket/support_ticket_comment.dart';
-import 'package:catcher/catcher.dart';
+// import 'package:catcher/catcher.dart';
 // import 'package:connectivity_plus/connectivity_plus.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -93,30 +93,32 @@ void main() async {
   // await Firebase.initializeApp();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  CatcherOptions debugOptions =
-      CatcherOptions(DialogReportMode(), [ConsoleHandler()]);
+  // CatcherOptions debugOptions =
+  //     CatcherOptions(DialogReportMode(), [ConsoleHandler()]);
 
-  /// Release configuration. Same as above, but once user accepts dialog, user will be prompted to send email with crash to support.
-  CatcherOptions releaseOptions = CatcherOptions(DialogReportMode(), [
-    EmailManualHandler([
-      "shahryar.r101@gmail.com",
-      "support@theposgeniee.com",
-      "m.umairashraf786@gmail.com"
-    ])
-  ]);
+  // /// Release configuration. Same as above, but once user accepts dialog, user will be prompted to send email with crash to support.
+  // CatcherOptions releaseOptions = CatcherOptions(DialogReportMode(), [
+  //   EmailManualHandler([
+  //     "shahryar.r101@gmail.com",
+  //     "support@theposgeniee.com",
+  //     "m.umairashraf786@gmail.com"
+  //   ])
+  // ]);
 
   /// STEP 2. Pass your root widget (MyApp) along with Catcher configuration:
-  Catcher(
-      rootWidget: const MyApp(),
-      debugConfig: debugOptions,
-      releaseConfig: releaseOptions);
+  // Catcher(
+  //     rootWidget: const MyApp(),
+  //     debugConfig: debugOptions,
+  //     releaseConfig: releaseOptions);
   // FlutterNativeSplash.remove();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -168,13 +170,14 @@ class MyApp extends StatelessWidget {
           create: (_) => PosSectionProvider(),
         ),
       ],
+      
       builder: (context, child) {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: theme(),
           debugShowCheckedModeBanner: false,
           home: const HomeScreen(),
-          navigatorKey: Catcher.navigatorKey,
+          navigatorKey: navKey,
           navigatorObservers: [FlutterSmartDialog.observer],
           builder: FlutterSmartDialog.init(),
           routes: {
@@ -313,3 +316,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+final navKey = GlobalKey<NavigatorState>();

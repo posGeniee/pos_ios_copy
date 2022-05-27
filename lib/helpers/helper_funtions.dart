@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dummy_app/helpers/const.dart';
-import 'package:catcher/catcher.dart';
+// import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -12,6 +12,8 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import '../main.dart';
 
 class HttpRequestOfApp {
   //Post Request
@@ -149,10 +151,10 @@ Future tryCatchFunction(Function function) async {
     if (error.toString().contains("SocketException")) {
 
 
-      edgeAlert(Catcher.navigatorKey!.currentState!.context,
+      edgeAlert(navKey.currentState!.context,
           title: 'Internet connection is down');
     } else {
-      Catcher.reportCheckedError(error, 'Error of the Catcher');
+      // Catcher.reportCheckedError(error, 'Error of the Catcher');
     }
   }
 }

@@ -57,7 +57,7 @@ dependencies:
       ref: 4d9c163
   flutter_smart_dialog: ^4.0.0
   rflutter_alert: ^2.0.4
-  catcher: ^0.6.9
+  # catcher: ^0.6.9
   floating_action_bubble: ^1.1.4
   flutter_slidable: ^1.2.0
   datetime_picker_formfield: ^2.0.0

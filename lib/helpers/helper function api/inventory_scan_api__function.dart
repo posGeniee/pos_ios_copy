@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dummy_app/helpers/const.dart';
-import 'package:catcher/catcher.dart';
+// import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import '../../main.dart';
 
 class IventoryScanApiCall {
   listofInventory(String locationId, String token) async {
@@ -73,7 +75,7 @@ class IventoryScanApiCall {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      edgeAlert(Catcher.navigatorKey!.currentContext,
+      edgeAlert(navKey.currentContext,
           gravity: Gravity.top,
           title: 'Updated Successfully',
           backgroundColor: Colors.green);

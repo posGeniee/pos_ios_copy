@@ -2,12 +2,14 @@ import 'package:dummy_app/data/models/item%20search%20model/scan_bar_code.dart';
 import 'package:dummy_app/data/models/item%20search%20model/search_products_with_plu_group&mixMatchModel.dart';
 import 'package:dummy_app/data/models/purchase_scan/bulk_purchase_scan.dart';
 import 'package:dummy_app/ui/screens/bulk_scan/purchase/create_purchase.dart';
-import 'package:catcher/catcher.dart';
+// import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
+
+import '../../main.dart';
 
 class InventoryScanProvider with ChangeNotifier {
   List<ScanBarCodeDatum> _inventoryScannedItems = [];
@@ -103,7 +105,7 @@ class InventoryScanProvider with ChangeNotifier {
       for (var e in _inventoryScannedItems) {
         if (e.id == codeDatum.id) {
           edgeAlert(
-            Catcher.navigatorKey!.currentState!.context,
+            navKey.currentState!.context,
             title: 'Provided product will not be added due to Duplication',
             backgroundColor: Colors.red,
           );
@@ -135,13 +137,13 @@ class InventoryScanProvider with ChangeNotifier {
     print("This is the Data 12345 $data");
     if (data.isNotEmpty) {
       edgeAlert(
-        Catcher.navigatorKey!.currentContext,
+        navKey.currentContext,
         backgroundColor: Colors.red,
         title: 'Item Added Previously',
       );
     } else {
       _inventoryscanData.add(scanData);
-      edgeAlert(Catcher.navigatorKey!.currentContext,
+      edgeAlert(navKey.currentContext,
           backgroundColor: Colors.green, title: 'Invenory Scan Item Added');
       notifyListeners();
     }
