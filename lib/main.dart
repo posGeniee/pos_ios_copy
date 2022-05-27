@@ -139,26 +139,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<BulkScanProvider>(
           create: (_) => BulkScanProvider(),
         ),
-        // User Location of the App
-        // StreamProvider<UserLocation>(
-        //   create: (_) => LocationService().locationGetterStream,
-        //   initialData: UserLocation(latitude: 0.0, longitude: 0.0),
-        // ),
-        //Stream to Get the Connectivity of the User with WIFI and Mobile.
-        // StreamProvider<ConnectivityResult>(
-        //   create: (_) => NetworkStatusService().networkGetterStream,
-        //   initialData: ConnectivityResult.wifi,
-        // ),
-        //Stream to Get the Whetherthe User is online or Offline.
-        // StreamProvider<NetworkStatus>(
-        //   create: (_) => NetworkStatusService().dataConncectionStream,
-        //   initialData: NetworkStatus.offline,
-        // ),
-        //Stream to Get the Whether the User Accepted the Premission of the App or not.
-        // StreamProvider<PremissonChange>(
-        //   create: (_) => PremisiionServiceofApp().premissonChange,
-        //   initialData: PremissonChange.isDenied,
-        // ),
+
         //For Bulk Scan
         ChangeNotifierProvider<MaintainanceProvider>(
           create: (_) => MaintainanceProvider(),
