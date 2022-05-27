@@ -43,7 +43,7 @@ dependencies:
   http: ^0.13.4
   pinput: ^1.2.2
   provider: ^6.0.2
-  catcher: 0.5.0
+  catcher: 0.6.5
   edge_alerts:
     git:
       url: https://github.com/shahryar-cmyk/EdgeAlerts.git
