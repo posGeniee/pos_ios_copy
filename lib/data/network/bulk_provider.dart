@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:dummy_app/data/models/purchase_scan/bank_list_model.dart';
 import 'package:dummy_app/data/models/purchase_scan/bulk_purchase_scan.dart';
-import 'package:dummy_app/main.dart';
 import 'package:dummy_app/ui/screens/bulk_scan/purchase/create_purchase.dart';
 import 'package:dummy_app/ui/screens/overview/overview_main.dart';
-// import 'package:catcher/catcher.dart';
+import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:flutter/material.dart';
 
@@ -236,13 +235,13 @@ class BulkScanProvider with ChangeNotifier {
 
     if (data.isNotEmpty) {
       edgeAlert(
-        navKey.currentContext,
+        Catcher.navigatorKey!.currentContext,
         backgroundColor: Colors.red,
         title: 'Item Added Previously',
       );
     } else {
       _bulkscanDataPurchase.add(scanData);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           backgroundColor: Colors.green, title: 'Invenory Scan Item Added');
       notifyListeners();
     }
@@ -254,7 +253,7 @@ class BulkScanProvider with ChangeNotifier {
     print("This is the Data 12345 $data");
     if (data.isNotEmpty) {
       edgeAlert(
-        navKey.currentContext,
+        Catcher.navigatorKey!.currentContext,
         backgroundColor: Colors.red,
         title: 'BarCode Item ($scanData) Remove Sucessfully',
       );
@@ -262,7 +261,7 @@ class BulkScanProvider with ChangeNotifier {
       notifyListeners();
     } else {
       // _bulkscanData.add(scanData);
-      // edgeAlert(navKey!.currentContext,
+      // edgeAlert(Catcher.navigatorKey!.currentContext,
       //     backgroundColor: Colors.green, title: 'Invenory Scan Item Added');
       notifyListeners();
     }
@@ -274,13 +273,13 @@ class BulkScanProvider with ChangeNotifier {
 
     if (data.isNotEmpty) {
       edgeAlert(
-        navKey.currentContext,
+        Catcher.navigatorKey!.currentContext,
         backgroundColor: Colors.red,
         title: 'Item Added Previously',
       );
     } else {
       _bulkscanDataPurchase.add(scanData);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           backgroundColor: Colors.green, title: 'Invenory Scan Item Added');
       notifyListeners();
     }

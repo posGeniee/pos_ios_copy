@@ -2,30 +2,41 @@ import 'dart:convert';
 
 import 'package:dummy_app/data/models/item%20search%20model/scan_bar_code.dart';
 import 'package:dummy_app/data/models/pos/mix_and_match_pos.dart';
-import 'package:dummy_app/main.dart';
-// import 'package:catcher/catcher.dart';
+import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../helpers/helper function api/pos_mix_and_match.dart';
+import '../../helpers/helper function api/pos_module_api.dart';
+import '../models/pos/business_setting.dart';
 import '../models/pos/customer_list.dart';
 
 class PosSectionProvider with ChangeNotifier {
   List<ScanBarCodeDatum> _list = [];
   List<MixMatchDatum> _mixMatchDiscount = [];
   List<Datum> _customerList = [];
-  double _tototalAmount = 0.0;
+  List<BusinessSetting> _businessSettingList = [];
+  double _tototalAmount = 0;
   int _totalDiscount = 0;
   late double _totalTax;
-  double _total = 0.0;
+  double _total = 0;
   late double _totalEbt;
-  double _specialPrice = 0.0;
+  double _specialPrice = 0;
+  double _totalBillPoints = 0;
   bool _isSpecial = false;
+  String _customerListFirstItem = '0.00';
+
+  String get customerListFirstItemGetter {
+    return _customerListFirstItem;
+  }
 
   double get totalAmountGetter {
     return _tototalAmount;
+  }
+
+  double get totalBillPointsGetter {
+    return _totalBillPoints;
   }
 
   double get totalGetter {
@@ -50,6 +61,48 @@ class PosSectionProvider with ChangeNotifier {
 
   bool get isSpecialGetter {
     return _isSpecial;
+  }
+
+  List<ScanBarCodeDatum> get productListGetter {
+    return _list;
+  }
+
+  mixMatchSetter(String dataofMixMatch) {
+    _mixMatchDiscount = mixAndMatchFromMap(dataofMixMatch).data!;
+    notifyListeners();
+  }
+
+  businessSettingSetter(String businessList) {
+    _businessSettingList = businessSettingModelFromMap(businessList).data!;
+    notifyListeners();
+  }
+
+  List<BusinessSetting> get businesssSettingListGetter {
+    if (_businessSettingList == null) {
+      return [];
+    }
+    return _businessSettingList;
+  }
+
+  customerListSetter(String customerList) {
+    _customerList = customerListModelFromMap(customerList).data!;
+    notifyListeners();
+  }
+
+  List<Datum> get customerListGetter {
+    if (_customerList == null) {
+      return [];
+    }
+    return _customerList;
+  }
+
+  customerListFirstItem() {
+    if (_customerList.isNotEmpty) {
+      _customerListFirstItem =
+          double.parse(_customerList.elementAt(0).usedLoyaltyPoint)
+              .toStringAsFixed(2);
+      print('customerListFirstItem inside>>>>>>>>>>>>> $_customerListFirstItem');
+    }
   }
 
   checkSpecialPrice(ScanBarCodeDatum cart) {
@@ -83,34 +136,6 @@ class PosSectionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<ScanBarCodeDatum> get productListGetter {
-    return _list;
-  }
-
-  // List<MixMatchDatum> get mixMatchGetter {
-  //   if (_mixMatchDiscount == null) {
-  //     return [];
-  //   }
-  //   return _mixMatchDiscount;
-  // }
-
-  mixMatchSetter(String dataofMixMatch) {
-    _mixMatchDiscount = mixAndMatchFromMap(dataofMixMatch).data!;
-    notifyListeners();
-  }
-
-  customerListSetter(String customerList) {
-    _customerList = customerListModelFromMap(customerList).data!;
-    notifyListeners();
-  }
-
-  List<Datum> get customerListGetter {
-    if (_customerList == null) {
-      return [];
-    }
-    return _customerList;
-  }
-
   totalAmountSetterAdd(ScanBarCodeDatum cart) {
     _list.where((element) {
       if (element.id == cart.id) {
@@ -140,7 +165,7 @@ class PosSectionProvider with ChangeNotifier {
   removeAll() {
     _list = [];
     edgeAlert(
-      navKey.currentState!.context,
+      Catcher.navigatorKey!.currentState!.context,
       title: 'Transaction SuccessFul',
       backgroundColor: Colors.green,
     );
@@ -303,6 +328,8 @@ class PosSectionProvider with ChangeNotifier {
 
     ebtCheck(barCodeDatum);
 
+    cartLoyaltyPoints(barCodeDatum);
+
     notifyListeners();
   }
 
@@ -343,6 +370,23 @@ class PosSectionProvider with ChangeNotifier {
     }).toList();
 
     notifyListeners();
+  }
+
+  cartLoyaltyPoints(ScanBarCodeDatum barCodeDatum) {
+    _list.map((e) {
+      if (e.id == barCodeDatum.id) {
+        e.cartLoyaltyPoints =
+            double.parse(e.loyaltyPoint) * double.parse(e.unitQty);
+
+        //Total Bill Points...
+        _totalBillPoints = 0;
+        _list.map((e1) {
+          _totalBillPoints = _totalBillPoints + e1.cartLoyaltyPoints;
+          print(
+              'name : ${e1.proName} ... loyaltyPoint : ${e1.loyaltyPoint} ... unitQty : ${e1.unitQty} ... cartLoyaltyPoints :  ${e1.cartLoyaltyPoints} ... _totalBillPoints : $_totalBillPoints');
+        }).toList();
+      }
+    }).toList();
   }
 
   checkWeekDayRestriction(
@@ -565,14 +609,13 @@ class PosSectionProvider with ChangeNotifier {
             'remove list data 1 >>>>>>>>>>> element.proName ... ${element.proName} element.id : ${element.id} ... barCodeDatum.id : ${barCodeDatum.id} ... subTotalCalculate : ${double.parse(subTotalCalculate(element))} ... cartTax : ${element.cartTax} ... discount : ${element.discount} ... ebt : ${element.ebt} ... ebtCart : ${element.ebtCart} ... mixMatchGroupApplied : ${element.mixMatchGroupApplied}');
 
         //Remove id...
-        element.mixmatchGroupIdApply.where((elementMixMatchId) {
-          print('1. elementMixMatchId : ${elementMixMatchId}');
-          element.mixmatchGroupIdApply.remove(element.id);
-          print('2. elementMixMatchId : ${elementMixMatchId}');
-          return false;
-        }).toList();
-        //Set mixMatch default to false...
-        element.mixMatchGroupApplied == false;
+        // element.mixmatchGroupIdApply.where((elementMixMatchId) {
+        //     print('1. elementMixMatchId : ${elementMixMatchId}');
+        //     element.mixmatchGroupIdApply.remove(element.id);
+        //     print('2. elementMixMatchId : ${elementMixMatchId}');
+        //   return false;
+        // }).toList();
+
         //Total Bill Update...
         _tototalAmount =
             _tototalAmount - double.parse(subTotalCalculate(element));
@@ -589,6 +632,8 @@ class PosSectionProvider with ChangeNotifier {
     }).toList();
 
     _list.removeWhere((element) {
+      //Set mixMatch default to false...
+      element.mixMatchGroupApplied == false;
       print(
           'remove list data 3 >>>>>>>>>>> element.proName ... ${element.proName} element.id : ${element.id} ... barCodeDatum.id : ${barCodeDatum.id} ... mixMatchGroupApplied : ${element.mixMatchGroupApplied}');
       return element.id == barCodeDatum.id;
@@ -603,8 +648,7 @@ List<ScanBarCodeDatum> dummyListConverter(String str) =>
         json.decode(str).map((x) => ScanBarCodeDatum.fromMap(x)));
 
 //Dummy Products
-String dummyDataPos =
-    '''[      {
+String dummyDataPos = '''[      {
                 "id": 328484,
                 "product_code": "82193",
                 "pro_name": "DURANGO CHILITOS 1 LB",

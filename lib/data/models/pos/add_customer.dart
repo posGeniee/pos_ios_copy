@@ -1,16 +1,16 @@
 // To parse this JSON data, do
 //
-//     final customerListModel = customerListModelFromMap(jsonString);
+//     final addCustomerModel = addCustomerModelFromMap(jsonString);
 
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-CustomerListModel customerListModelFromMap(String str) => CustomerListModel.fromMap(json.decode(str));
+AddCustomerModel addCustomerModelFromMap(String str) => AddCustomerModel.fromMap(json.decode(str));
 
-String customerListModelToMap(CustomerListModel data) => json.encode(data.toMap());
+String addCustomerModelToMap(AddCustomerModel data) => json.encode(data.toMap());
 
-class CustomerListModel {
-  CustomerListModel({
+class AddCustomerModel {
+  AddCustomerModel({
     required this.code,
     required this.message,
     required this.data,
@@ -18,12 +18,12 @@ class CustomerListModel {
 
   int code;
   String message;
-  List<Datum>? data;
+  List<AddCustomerDatum>? data;
 
-  factory CustomerListModel.fromMap(Map<String, dynamic> json) => CustomerListModel(
+  factory AddCustomerModel.fromMap(Map<String, dynamic> json) => AddCustomerModel(
     code: json["code"] == null ? null : json["code"],
     message: json["message"] == null ? null : json["message"],
-    data: json["data"] == null ? null : List<Datum>.from(json["data"].map((x) => Datum.fromMap(x))),
+    data: json["data"] == null ? null : List<AddCustomerDatum>.from(json["data"].map((x) => AddCustomerDatum.fromMap(x))),
   );
 
   Map<String, dynamic> toMap() => {
@@ -33,8 +33,8 @@ class CustomerListModel {
   };
 }
 
-class Datum {
-  Datum({
+class AddCustomerDatum {
+  AddCustomerDatum({
     required this.id,
     required this.customerGroupId,
     required this.businessId,
@@ -49,8 +49,10 @@ class Datum {
     required this.mobile,
     required this.balance,
     required this.visitsCount,
-    required this.usedLoyaltyPoint,
     required this.creditLimit,
+    required this.offlineId,
+    required this.terminalId,
+    required this.zipCode,
   });
 
   int id;
@@ -59,34 +61,38 @@ class Datum {
   String type;
   String name;
   String firstName;
-  String middleName;
-  String lastName;
+  dynamic middleName;
+  dynamic lastName;
   String email;
   String contactId;
-  DateTime? dob;
+  dynamic dob;
   String mobile;
   String balance;
   int visitsCount;
-  String usedLoyaltyPoint;
-  String creditLimit;
+  dynamic creditLimit;
+  int offlineId;
+  int terminalId;
+  String zipCode;
 
-  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
-    id: json["id"] == null ? null : json["id"],
-    customerGroupId: json["customer_group_id"] == null ? null : json["customer_group_id"],
-    businessId: json["business_id"] == null ? null : json["business_id"],
-    type: json["type"] == null ? null : json["type"],
+  factory AddCustomerDatum.fromMap(Map<String, dynamic> json) => AddCustomerDatum(
+    id: json["id"] == null ? 0 : json["id"],
+    customerGroupId: json["customer_group_id"] == null ? 0 : json["customer_group_id"],
+    businessId: json["business_id"] == null ? 0 : json["business_id"],
+    type: json["type"] == null ? '' : json["type"],
     name: json["name"] == null ? '' : json["name"],
     firstName: json["first_name"] == null ? '' : json["first_name"],
-    middleName: json["middle_name"] == null ? '' : json["middle_name"],
-    lastName: json["last_name"] == null ? '' : json["last_name"],
+    middleName: json["middle_name"],
+    lastName: json["last_name"],
     email: json["email"] == null ? '' : json["email"],
-    contactId: json["contact_id"] == '' ? null : json["contact_id"],
-    dob: json["dob"] == null ? DateTime.now() : DateTime.parse(json["dob"]),
+    contactId: json["contact_id"] == null ? '' : json["contact_id"],
+    dob: json["dob"],
     mobile: json["mobile"] == null ? '' : json["mobile"],
     balance: json["balance"] == null ? '' : json["balance"],
     visitsCount: json["visits_count"] == null ? 0 : json["visits_count"],
-    usedLoyaltyPoint: json["used_loyalty_point"] == null ? '0.0' : json["used_loyalty_point"],
-    creditLimit: json["credit_limit"] == null ? '' : json["credit_limit"],
+    creditLimit: json["credit_limit"],
+    offlineId: json["offline_id"] == null ? 0 : json["offline_id"],
+    terminalId: json["terminal_id"] == null ? 0 : json["terminal_id"],
+    zipCode: json["zip_code"] == null ? '' : json["zip_code"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -96,15 +102,17 @@ class Datum {
     "type": type == null ? null : type,
     "name": name == null ? null : name,
     "first_name": firstName == null ? null : firstName,
-    "middle_name": middleName == null ? null : middleName,
-    "last_name": lastName == null ? null : lastName,
+    "middle_name": middleName,
+    "last_name": lastName,
     "email": email == null ? null : email,
     "contact_id": contactId == null ? null : contactId,
-    "dob": dob == null ? null : "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+    "dob": dob,
     "mobile": mobile == null ? null : mobile,
     "balance": balance == null ? null : balance,
     "visits_count": visitsCount == null ? null : visitsCount,
-    "used_loyalty_point": usedLoyaltyPoint == null ? null : usedLoyaltyPoint,
-    "credit_limit": creditLimit == null ? null : creditLimit,
+    "credit_limit": creditLimit,
+    "offline_id": offlineId == null ? null : offlineId,
+    "terminal_id": terminalId == null ? null : terminalId,
+    "zip_code": zipCode == null ? null : zipCode,
   };
 }

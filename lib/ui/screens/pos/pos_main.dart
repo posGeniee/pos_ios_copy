@@ -8,6 +8,7 @@ import 'package:dummy_app/helpers/scalling.dart';
 import 'package:dummy_app/ui/screens/bulk_scan/scanned_bulk_products.dart';
 import 'package:dummy_app/ui/screens/item_search/ItemEdit/widgets/department_edit.dart';
 import 'package:dummy_app/ui/screens/overview/sale_item_summary.dart';
+import 'package:dummy_app/ui/screens/pos/add_new_customer.dart';
 import 'package:dummy_app/ui/screens/pos/list_of_products_search.dart';
 import 'package:dummy_app/ui/screens/pos/pos_scanner.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -22,7 +23,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/pos/customer_list.dart';
-import '../../../helpers/helper function api/pos_mix_and_match.dart';
+import '../../../helpers/helper function api/pos_module_api.dart';
 
 class PosMainSreen extends StatefulWidget {
   static const routeName = '/PosMainSreen';
@@ -48,6 +49,12 @@ class _PosMainSreenState extends State<PosMainSreen>
   late Animation<double> _animation;
   late AnimationController _animationController;
   int _index = 0;
+  String customerPoints = '0.00';
+  String customerAmount = '0';
+  String billAmount = '0';
+  String billPoints = '0';
+  String totalPoints = '0';
+  String totalAmount = '0';
 
   mixAndMatch() async {
     final token = Provider.of<AuthRequest>(context, listen: false)
@@ -61,16 +68,22 @@ class _PosMainSreenState extends State<PosMainSreen>
     await Future.delayed(Duration.zero);
     showLoading();
 
+    //Business Setting Api call....
+    final responseBusinessSettingList =
+        await PosModuleApi().businessSettings(token);
+    print('responseBusinessSettingList : $responseBusinessSettingList');
+    Provider.of<PosSectionProvider>(context, listen: false)
+        .businessSettingSetter(responseBusinessSettingList);
+
     //MixMatch Api call...
-    final responseMixMatch =
-        await PosModule().mixAndMatchPosProductData(locationId.toString(), token);
+    final responseMixMatch = await PosModuleApi()
+        .mixAndMatchPosProductData(locationId.toString(), token);
     print('responseMixMatch : $responseMixMatch');
     Provider.of<PosSectionProvider>(context, listen: false)
         .mixMatchSetter(responseMixMatch);
 
     //Customer List Api Call....
-    final responseCustomerList =
-    await PosModule().customerList(token);
+    final responseCustomerList = await PosModuleApi().customerList(token);
     print('responseCustomerList : $responseCustomerList');
     Provider.of<PosSectionProvider>(context, listen: false)
         .customerListSetter(responseCustomerList);
@@ -96,16 +109,92 @@ class _PosMainSreenState extends State<PosMainSreen>
 
   @override
   Widget build(BuildContext context) {
-    final List<ScanBarCodeDatum> data =
-        Provider.of<PosSectionProvider>(context, listen: true)
-            .productListGetter;
-    customerListItems = Provider.of<PosSectionProvider>(context, listen: true).customerListGetter;
-    print("This is the data of customerList = $customerListItems");
+    var posProvider = Provider.of<PosSectionProvider>(context, listen: true);
 
-    if(customerListItems.isNotEmpty) {
-      customerListItems.map((e) {
-        print('Name: ${e.name} ... mobile: ${e.mobile}');
-      }).toList();
+    posProvider.customerListFirstItem();
+
+    final List<ScanBarCodeDatum> data = posProvider.productListGetter;
+
+    if (data.isNotEmpty) {
+      print(
+          'posProvider.customerListFirstItemGetter >>>> : ${posProvider.customerListFirstItemGetter}');
+      customerListItems = posProvider.customerListGetter;
+
+      var businessSetting = posProvider.businesssSettingListGetter;
+      billPoints = posProvider.totalBillPointsGetter.toStringAsFixed(2);
+
+      billAmountCal() {
+        billAmount = ((double.parse(billPoints) /
+                    double.parse(businessSetting.elementAt(0).loyaltyPoint)) *
+                double.parse(businessSetting.elementAt(0).loyaltyAmount))
+            .toStringAsFixed(2);
+
+        print(
+            '>>>>>>>>>>>> loyaltyPoint : ${businessSetting.elementAt(0).loyaltyPoint} ... loyaltyAmount : ${businessSetting.elementAt(0).loyaltyAmount} ... billAmount : $billAmount');
+
+        if (double.parse(billAmount) % 1 == 0) {
+          billAmount = double.parse(billAmount).round().toString();
+        }
+      }
+
+      billPointsCal() {
+        if (billPoints != '0.00') {
+          if (double.parse(billPoints) % 1 == 0) {
+            billPoints = double.parse(billPoints).round().toString();
+            print(
+                'billPoints 1 >>>>>>>> $billPoints  double.parse(billPoints) % 1 == 0');
+          }
+          billAmountCal();
+        } else {
+          print('billPoints: $billPoints');
+          billPoints = double.parse(billPoints).round().toString();
+        }
+      }
+
+      customerAmountCal() {
+        customerAmount = ((double.parse(customerPoints) /
+                    double.parse(businessSetting.elementAt(0).loyaltyPoint)) *
+                double.parse(businessSetting.elementAt(0).loyaltyAmount))
+            .toStringAsFixed(2);
+
+        print(
+            '>>>>>>>>>>>> loyaltyPoint : ${businessSetting.elementAt(0).loyaltyPoint} ... loyaltyAmount : ${businessSetting.elementAt(0).loyaltyAmount} ... customerAmount : $customerAmount');
+
+        if (double.parse(customerAmount) % 1 == 0) {
+          customerAmount = double.parse(customerAmount).round().toString();
+        }
+      }
+
+      customerPointsCal() {
+        if (customerPoints != '0.00') {
+          if (double.parse(customerPoints) % 1 == 0) {
+            customerPoints = double.parse(customerPoints).round().toString();
+            print(
+                'customerPoints 1 >>>>>>>> $customerPoints  double.parse(customerPoints) % 1 == 0');
+          }
+          customerAmountCal();
+        } else {
+          customerPoints = double.parse(customerPoints).round().toString();
+          print('customerPoints: $customerPoints');
+        }
+      }
+
+      totalPointsCal() {
+        totalPoints = (double.parse(customerPoints) + double.parse(billPoints))
+            .toStringAsFixed(2);
+        if (double.parse(totalPoints) % 1 == 0) {
+          totalPoints = double.parse(totalPoints).round().toString();
+        }
+        totalAmount = (double.parse(customerAmount) + double.parse(billAmount))
+            .toStringAsFixed(2);
+        if (double.parse(totalAmount) % 1 == 0) {
+          totalAmount = double.parse(totalAmount).round().toString();
+        }
+      }
+
+      customerPointsCal();
+      billPointsCal();
+      totalPointsCal();
     }
 
     return Scaffold(
@@ -216,7 +305,7 @@ class _PosMainSreenState extends State<PosMainSreen>
           : Column(
               children: [
                 SizedBox(height: 5),
-                customerPointsCard(),
+                customerPointsCard(customerListItems),
                 SizedBox(
                   height: 120,
                   child: PageView(
@@ -251,7 +340,7 @@ class _PosMainSreenState extends State<PosMainSreen>
     );
   }
 
-  Padding customerPointsCard() {
+  Padding customerPointsCard(List<Datum> customerListItems) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Card(
@@ -274,10 +363,11 @@ class _PosMainSreenState extends State<PosMainSreen>
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               children: [
-                dropdownSearch(),
-                pointsCalculations('Customer points', '500', '20'),
-                pointsCalculations('Bill points', '500', '20'),
-                pointsCalculations('Total points', '1000', '40'),
+                dropdownSearch(customerListItems),
+                pointsCalculations(
+                    'Customer points', customerPoints, customerAmount),
+                pointsCalculations('Bill points', billPoints, billAmount),
+                pointsCalculations('Total points', totalPoints, totalAmount),
                 SizedBox(height: 10)
               ],
             ),
@@ -287,7 +377,7 @@ class _PosMainSreenState extends State<PosMainSreen>
     );
   }
 
-  Padding dropdownSearch() {
+  Padding dropdownSearch(List<Datum> customerListItems) {
     return Padding(
       padding: const EdgeInsets.only(top: 15, bottom: 8),
       child: Row(
@@ -300,20 +390,24 @@ class _PosMainSreenState extends State<PosMainSreen>
               child: DropdownSearch<String>(
                 mode: Mode.DIALOG,
                 showSelectedItems: true,
-                items: customerListItems.isNotEmpty ? customerListItems.map((e) => '${e.name} # ${e.mobile}').toList() : null,
+                items: customerListItems.isNotEmpty
+                    ? customerListItems
+                        .map((e) => '${e.name} # ${e.mobile}')
+                        .toList()
+                    : null,
                 dropdownSearchDecoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 0),
+                  contentPadding:
+                      EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 0),
                   labelText: "Select your customer",
                   hintText: "Select your customer",
                   labelStyle: TextStyle(color: Colors.white),
                   hintStyle: TextStyle(color: Colors.white),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
-                      borderSide: BorderSide(color: Colors.white)
-                  ),
+                      borderSide: BorderSide(color: Colors.white)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      borderSide: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(color: Colors.white),
                   ),
                 ),
                 showSearchBox: true,
@@ -322,14 +416,33 @@ class _PosMainSreenState extends State<PosMainSreen>
                   icon: Icon(Icons.arrow_drop_down),
                   color: Colors.white,
                 ),
-                onChanged: print,
-                selectedItem: customerListItems.isNotEmpty ? '${customerListItems.elementAt(0).name} # ${customerListItems.elementAt(0).mobile}' : 'Select your customer',
+                onChanged: (abc) {
+                  customerListItems.where((element) {
+                    if ('${element.name} # ${element.mobile}' == abc) {
+                      setState(() {
+                        customerPoints = double.parse(element.usedLoyaltyPoint).toStringAsFixed(2);
+                        print('onChange >>>>>>>>>>>>>>> customerPoints : $customerPoints');
+                      });
+                    }
+                    return false;
+                  }).toString();
+                },
+                selectedItem: customerListItems.isNotEmpty
+                    ? '${customerListItems.elementAt(0).name} # ${customerListItems.elementAt(0).mobile}'
+                    : 'Select your customer',
               ),
             ),
           ),
-          const SizedBox(
+          SizedBox(
               width: 50,
-              child: Center(child: Icon(Icons.add_circle_outline, color: Colors.white, size: 35))),
+              child: Center(
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewCustomer()));
+                    },
+                    child: Icon(Icons.add_circle_outline,
+                        color: Colors.white, size: 35),
+                  ))),
         ],
       ),
     );
@@ -339,14 +452,16 @@ class _PosMainSreenState extends State<PosMainSreen>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(name, style: const TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-            fontWeight: FontWeight.bold)),
-        Text('$points ($usd\$)', style: const TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-            fontWeight: FontWeight.bold)),
+        Text(name,
+            style: const TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+                fontWeight: FontWeight.bold)),
+        Text('$points ($usd\$)',
+            style: const TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+                fontWeight: FontWeight.bold)),
       ],
     );
   }
@@ -413,7 +528,8 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Provider.of<PosSectionProvider>(context, listen: false).addtoProductList(context, product);
+        Provider.of<PosSectionProvider>(context, listen: false)
+            .addtoProductList(context, product);
         Navigator.of(context).pop();
       },
       child: Column(
@@ -482,24 +598,6 @@ class _CartCardState extends State<CartCard> {
 
   @override
   Widget build(BuildContext context) {
-    // print('widget.cart.mixMatchGroupApplied : ${widget.cart.mixMatchGroupApplied}');
-    // var posProvider = Provider.of<PosSectionProvider>(context).productListGetter;
-    // posProvider.where((element) {
-    //   print('pos main proName : ${element.proName} ... subtotalAfterDiscount : ${element.subtotalAfterDiscount}');
-    //
-    //   return false;
-    // }).toList();
-
-    widget.cart.mixmatchGroupIdApply.where((element2) {
-      if (element2 == widget.cart.id) {
-        checkMixMatchDiscount = widget.cart.mixMatchGroupApplied;
-        print(
-            '>>>>>>>>>>>>>>>>> pos main ${widget.cart.id} ... subtotalAfterDiscount ... ${widget.cart.subtotalAfterDiscount} ... checkMixMatchDiscount : ${checkMixMatchDiscount}');
-      }
-      return false;
-    }).toList();
-
-    // posProvider.checkSpecialPrice(widget.cart);
     init(context);
 
     return Slidable(
@@ -557,60 +655,8 @@ class _CartCardState extends State<CartCard> {
                     // overflow: TextOverflow.ellipsis,
                     // maxLines: 2,
                   ),
-
-                  // RichText(
-                  //   text: TextSpan(
-                  //     text: '',
-                  //     style: DefaultTextStyle.of(context).style,
-                  //     children: <TextSpan>[
-                  //       const TextSpan(
-                  //           text: 'Retail Price : ',
-                  //           style: TextStyle(fontWeight: FontWeight.bold)),
-                  //       TextSpan(
-                  //           text: widget.cart.onSpecial == 1 &&
-                  //                   widget.isSpecial == true
-                  //               ? widget.specialPrice
-                  //               : double.parse(widget.cart.retailPrice)
-                  //                   .toStringAsFixed(2),
-                  //           style: TextStyle(
-                  //             decoration: (widget.cart.onSpecial == 1 &&
-                  //                     widget.isSpecial == true)
-                  //                 ? TextDecoration.lineThrough
-                  //                 : TextDecoration.none,
-                  //           )),
-                  //     ],
-                  //   ),
-                  // ),
-
                   cartRetailPriceDetails(context),
-
                   cartSubTotalDetails(context),
-
-                  // RichText(
-                  //   text: TextSpan(
-                  //     text: '',
-                  //     style: DefaultTextStyle.of(context).style,
-                  //     children: <TextSpan>[
-                  //       const TextSpan(
-                  //           text: 'SubTotal : ',
-                  //           style: TextStyle(fontWeight: FontWeight.bold)),
-                  //       TextSpan(
-                  //           text: widget.cart.subTotal,
-                  //           style: TextStyle(
-                  //             decoration: discountProvider != 0.0
-                  //                 ? TextDecoration.lineThrough
-                  //                 : TextDecoration.none,
-                  //           )),
-                  //       TextSpan(
-                  //           text: discountProvider != 0.0
-                  //               ? Provider.of<PosSectionProvider>(context)
-                  //                   .discountProductGetter
-                  //                   .toStringAsFixed(2)
-                  //               : widget.cart.subTotal),
-                  //     ],
-                  //   ),
-                  // );
-
                   Row(children: [
                     IconButton(
                       onPressed: () {
@@ -643,32 +689,6 @@ class _CartCardState extends State<CartCard> {
                     // if(widget.cart.mixmatchGroupIdApply == true)
                     //   Text('MixMatch done'),
                   ]),
-
-                  // RichText(
-                  //   text: TextSpan(
-                  //     text: '',
-                  //     style: DefaultTextStyle.of(context).style,
-                  //     children: <TextSpan>[
-                  //       const TextSpan(
-                  //           text: 'Adjustment Type : ',
-                  //           style: TextStyle(fontWeight: FontWeight.bold)),
-                  //       TextSpan(text: stringToJson.data![index].adjustmentType),
-                  //     ],
-                  //   ),
-                  // ),
-                  // SizedBox(height: 10),
-                  // Text.rich(
-                  //   TextSpan(
-                  //     text: "\$${cart.unitCost}",
-                  //     style:
-                  //         TextStyle(fontWeight: FontWeight.w600, color: buttonColor),
-                  //     children: [
-                  //       TextSpan(
-                  //           text: " x${1}",
-                  //           style: Theme.of(context).textTheme.bodyText1),
-                  //     ],
-                  //   ),
-                  // )
                 ],
               ),
             )
@@ -707,12 +727,12 @@ class _CartCardState extends State<CartCard> {
             style: TextStyle(fontWeight: FontWeight.bold)),
         Text(widget.cart.subTotal,
             style: TextStyle(
-              decoration: checkMixMatchDiscount
+              decoration: widget.cart.mixMatchGroupApplied
                   ? TextDecoration.lineThrough
                   : TextDecoration.none,
             )),
         SizedBox(width: width(15)),
-        if (checkMixMatchDiscount)
+        if (widget.cart.mixMatchGroupApplied)
           Text(widget.cart.subtotalAfterDiscount.toStringAsFixed(2)),
       ],
     );

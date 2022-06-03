@@ -146,9 +146,9 @@ class _UpdatePartScreenState extends State<UpdatePartScreen> {
                 TextInputAction.next,
                 readOnly: false,
               ),
-              // UserImagePicker(
-              //   imagePickFn: _pickedImage,
-              // ),
+              UserImagePicker(
+                imagePickFn: _pickedImage,
+              ),
 
               // Text(_imageFileCamera!.path),
             ],

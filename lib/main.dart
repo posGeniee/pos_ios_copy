@@ -6,13 +6,17 @@ import 'package:dummy_app/data/network/item_search_provider.dart';
 import 'package:dummy_app/data/network/maintainance_provider.dart';
 import 'package:dummy_app/data/network/pos_provider.dart';
 import 'package:dummy_app/helpers/theme.dart';
+import 'package:dummy_app/services/network_service.dart';
+// import 'package:dummy_app/services/premission_services.dart';
 import 'package:dummy_app/ui/screens/after_sign_in.dart';
 import 'package:dummy_app/ui/screens/auth/change_password.dart';
 import 'package:dummy_app/ui/screens/auth/change_password_after_sign.dart';
 import 'package:dummy_app/ui/screens/auth/enter_otp.dart';
+import 'package:dummy_app/ui/screens/auth/first_screen.dart';
 import 'package:dummy_app/ui/screens/auth/forgot_password.dart';
 import 'package:dummy_app/ui/screens/auth/home_screen.dart';
 import 'package:dummy_app/ui/screens/auth/sign_in_screen.dart';
+import 'package:dummy_app/ui/screens/auth/starting_credentials_screen.dart';
 import 'package:dummy_app/ui/screens/bulk_scan/bulk_scan_main.dart';
 import 'package:dummy_app/ui/screens/bulk_scan/bulk_scannner.dart';
 import 'package:dummy_app/ui/screens/bulk_scan/purchase/create_purchase.dart';
@@ -31,6 +35,9 @@ import 'package:dummy_app/ui/screens/item_search/options/add_plu_group.dart';
 import 'package:dummy_app/ui/screens/item_search/pagination_example.dart';
 import 'package:dummy_app/ui/screens/item_search/plu_group_detail_prod_screen.dart';
 import 'package:dummy_app/ui/screens/item_search/plu_group_prod_graph.dart';
+import 'package:dummy_app/ui/screens/maintainance/admin_maintainance_main.dart';
+import 'package:dummy_app/ui/screens/maintainance/equipment_main.dart';
+import 'package:dummy_app/ui/screens/maintainance/event_page.dart';
 import 'package:dummy_app/ui/screens/maintainance/machines/machine_add.dart';
 import 'package:dummy_app/ui/screens/maintainance/machines/update_machine.dart';
 import 'package:dummy_app/ui/screens/maintainance/maintainance_main.dart';
@@ -50,6 +57,7 @@ import 'package:dummy_app/ui/screens/maintainance/maintainance_schedule/ticket_t
 import 'package:dummy_app/ui/screens/maintainance/maintainance_schedule/ticket_trip/ticket_trip_add.dart';
 import 'package:dummy_app/ui/screens/maintainance/maintainance_schedule/ticket_trip/ticket_trip_main.dart';
 import 'package:dummy_app/ui/screens/maintainance/maintainance_schedule/ticket_trip/ticket_trip_update.dart';
+import 'package:dummy_app/ui/screens/maintainance/orders.dart';
 import 'package:dummy_app/ui/screens/maintainance/parts/parts_add.dart';
 import 'package:dummy_app/ui/screens/maintainance/parts/parts_main.dart';
 import 'package:dummy_app/ui/screens/maintainance/parts/update_part.dart';
@@ -79,7 +87,7 @@ import 'package:dummy_app/ui/screens/receipts/receipt_main.dart';
 import 'package:dummy_app/ui/screens/support_ticket/create_ticket.dart';
 import 'package:dummy_app/ui/screens/support_ticket/list_of_ticket.dart';
 import 'package:dummy_app/ui/screens/support_ticket/support_ticket_comment.dart';
-// import 'package:catcher/catcher.dart';
+import 'package:catcher/catcher.dart';
 // import 'package:connectivity_plus/connectivity_plus.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -87,38 +95,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:provider/provider.dart';
 
+import 'data/network/starting_credential_provider.dart';
+
 void main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  // CatcherOptions debugOptions =
-  //     CatcherOptions(DialogReportMode(), [ConsoleHandler()]);
+  CatcherOptions debugOptions =
+      CatcherOptions(DialogReportMode(), [ConsoleHandler()]);
 
-  // /// Release configuration. Same as above, but once user accepts dialog, user will be prompted to send email with crash to support.
-  // CatcherOptions releaseOptions = CatcherOptions(DialogReportMode(), [
-  //   EmailManualHandler([
-  //     "shahryar.r101@gmail.com",
-  //     "support@theposgeniee.com",
-  //     "m.umairashraf786@gmail.com"
-  //   ])
-  // ]);
+  /// Release configuration. Same as above, but once user accepts dialog, user will be prompted to send email with crash to support.
+  CatcherOptions releaseOptions = CatcherOptions(DialogReportMode(), [
+    EmailManualHandler([
+      "shahryar.r101@gmail.com",
+      "support@theposgeniee.com",
+      "m.umairashraf786@gmail.com"
+    ])
+  ]);
 
   /// STEP 2. Pass your root widget (MyApp) along with Catcher configuration:
-  // Catcher(
-  //     rootWidget: const MyApp(),
-  //     debugConfig: debugOptions,
-  //     releaseConfig: releaseOptions);
+  Catcher(
+      rootWidget: const MyApp(),
+      debugConfig: debugOptions,
+      releaseConfig: releaseOptions);
   // FlutterNativeSplash.remove();
-  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -169,15 +177,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<PosSectionProvider>(
           create: (_) => PosSectionProvider(),
         ),
+        ChangeNotifierProvider<CredentialProvider>(
+          create: (_) => CredentialProvider(),
+        ),
       ],
-      
       builder: (context, child) {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: theme(),
           debugShowCheckedModeBanner: false,
+          // home: const StartingCredentialsScreen(),
           home: const HomeScreen(),
-          navigatorKey: navKey,
+          navigatorKey: Catcher.navigatorKey,
           navigatorObservers: [FlutterSmartDialog.observer],
           builder: FlutterSmartDialog.init(),
           routes: {
@@ -316,5 +327,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-final navKey = GlobalKey<NavigatorState>();

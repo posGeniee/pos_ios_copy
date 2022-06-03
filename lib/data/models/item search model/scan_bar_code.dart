@@ -191,6 +191,7 @@ class ScanBarCodeDatum {
     required this.discount,
     required this.cartTax,
     required this.ebtCart,
+    required this.cartLoyaltyPoints,
   });
 
   int id;
@@ -257,6 +258,7 @@ class ScanBarCodeDatum {
   int discount;
   double cartTax;
   double ebtCart;
+  double cartLoyaltyPoints;
 
   factory ScanBarCodeDatum.fromMap(Map<String, dynamic> json) =>
       ScanBarCodeDatum(
@@ -368,6 +370,7 @@ class ScanBarCodeDatum {
         discount: json["discount"] == null ? 0 : json["discount"],
         cartTax: json["cartTax"] == null ? 0.0 : json["cartTax"],
         ebtCart: json["ebtCart"] == null ? 0.0 : json["ebtCart"],
+        cartLoyaltyPoints: json["cartLoyaltyPoints"] == null ? 0 : json["cartLoyaltyPoints"],
       );
 
   Map<String, dynamic> toMap() => {

@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:dummy_app/helpers/const.dart';
-import 'package:dummy_app/main.dart';
-// import 'package:catcher/catcher.dart';
+import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:http/http.dart' as http;
 
@@ -164,7 +163,7 @@ class SupportTicketsApiFunction {
       );
       if (responseJsonDecode['code'] == 200) {
         edgeAlert(
-          navKey.currentState!.context,
+          Catcher.navigatorKey!.currentState!.context,
           title: 'Comment Added',
         );
         return true;

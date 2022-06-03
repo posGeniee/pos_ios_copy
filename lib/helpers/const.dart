@@ -2,6 +2,9 @@ import 'package:dummy_app/data/models/menu_item.dart';
 import 'package:dummy_app/data/models/sales_overview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../data/network/starting_credential_provider.dart';
 
 const kTextColor = Color(0xFF757575);
 
@@ -17,47 +20,50 @@ Color colorPinkButton = const Color.fromRGBO(236, 36, 129, 1);
 
 String assetImage = 'assets/images/event_star.png';
 
+//appUrl
+String appUrl = 'https://thesuperstarshop.com';
+
 //Base Url
-const baseUrl = 'https://thesuperstarshop.com/api';
+String baseUrl = '$appUrl/api';
 
 //SignIn API
-const signInApi = '$baseUrl/v2/login';
+String signInApi = '$baseUrl/v2/login';
 
 //Forgot Password APIs
-const forgotPasswordApi = '$baseUrl/v2/forgot-password';
+String forgotPasswordApi = '$baseUrl/v2/forgot-password';
 //Enter Otp
-const enterOtpApi = '$baseUrl/v2/enter-otp';
+String enterOtpApi = '$baseUrl/v2/enter-otp';
 //Change Password
-const changePasswordApi = '$baseUrl/v2/chnage-password';
+String changePasswordApi = '$baseUrl/v2/chnage-password';
 //Change Password After Login
-const changePasswordAfterLoginApi = '$baseUrl/v2/new-change-password';
+String changePasswordAfterLoginApi = '$baseUrl/v2/new-change-password';
 
 //Sales Apis
-const getSalesGraph = '$baseUrl/v2/sale-overview';
+String getSalesGraph = '$baseUrl/v2/sale-overview';
 //Item Summary
-const getSalesGraphDetial = '$baseUrl/v2/item-summary';
+String getSalesGraphDetial = '$baseUrl/v2/item-summary';
 
 //Item Search Apis.
 // plu group list
-const pluGrouplist = '$baseUrl/v2/plu-group';
+String pluGrouplist = '$baseUrl/v2/plu-group';
 // Mix Match Group List
-const mixmatchgroup = '$baseUrl/v2/mix-match-group';
+String mixmatchgroup = '$baseUrl/v2/mix-match-group';
 // plu Group By Id
-const pluGroupById = '$baseUrl/v2/group-by-id';
+String pluGroupById = '$baseUrl/v2/group-by-id';
 //Get Departments
-const departments = '$baseUrl/v2/category';
+String departments = '$baseUrl/v2/category';
 // item Products
-const itemproduct = '$baseUrl/v2/item-product';
+String itemproduct = '$baseUrl/v2/item-product';
 //vendors Data
-const vendors = '$baseUrl/v2/vendors';
+String vendors = '$baseUrl/v2/vendors';
 // save products
-const saveProducts = '$baseUrl/v2/save-product';
+String saveProducts = '$baseUrl/v2/save-product';
 // vendors search
-const vendorSearch = '$baseUrl/v2/vendors-search';
+String vendorSearch = '$baseUrl/v2/vendors-search';
 // category search
-const categorySearch = '$baseUrl/v2/category-search';
+String categorySearch = '$baseUrl/v2/category-search';
 //sale 7 day & 15 day & 30 day
-const sale7day15day30day = '$baseUrl/v2/sale-chart';
+String sale7day15day30day = '$baseUrl/v2/sale-chart';
 
 extension EmailValidator on String {
   bool isValidEmail() {

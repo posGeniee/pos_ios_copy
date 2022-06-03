@@ -1,7 +1,6 @@
 // import 'package:dummy_app/ui/screens/item_search/options/add_mix_match_group.dart';
 import 'package:dummy_app/helpers/const.dart';
-import 'package:dummy_app/main.dart';
-// import 'package:catcher/catcher.dart';
+import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -395,7 +394,7 @@ class ItemSearchApiFuncion {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Mix Match Group Added Successfully',
           backgroundColor: Colors.green);
@@ -420,7 +419,7 @@ class ItemSearchApiFuncion {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Plu Group Added Successfully',
           backgroundColor: Colors.green);

@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:dummy_app/data/models/sign_in.dart';
 import 'package:dummy_app/helpers/const.dart';
 import 'package:dummy_app/helpers/helper_funtions.dart';
-import 'package:dummy_app/main.dart';
-// import 'package:catcher/catcher.dart';
+import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -49,7 +48,7 @@ class AuthRequest with ChangeNotifier {
 
         var responseJsonDecode = json.decode(responseDataString.body);
         if (responseJsonDecode['code'] == 400) {
-          edgeAlert(navKey.currentContext,
+          edgeAlert(Catcher.navigatorKey!.currentContext,
               gravity: Gravity.top,
               title: responseJsonDecode['message'].toString(),
               icon: Icons.error_outline,
@@ -96,7 +95,7 @@ class AuthRequest with ChangeNotifier {
         );
         var responseJsonDecode = json.decode(responseDataString.body);
         if (responseJsonDecode['code'] == 400) {
-          edgeAlert(navKey.currentContext,
+          edgeAlert(Catcher.navigatorKey!.currentContext,
               gravity: Gravity.top,
               title: responseJsonDecode['message'].toString(),
               icon: Icons.error_outline,
@@ -109,7 +108,7 @@ class AuthRequest with ChangeNotifier {
           });
         } else {
           edgeAlert(
-            navKey.currentContext,
+            Catcher.navigatorKey!.currentContext,
             gravity: Gravity.top,
             title: responseJsonDecode['message'].toString(),
             backgroundColor: Colors.green,
@@ -149,7 +148,7 @@ class AuthRequest with ChangeNotifier {
         );
         var responseJsonDecode = json.decode(responseDataString.body);
         if (responseJsonDecode['code'] == 400) {
-          edgeAlert(navKey.currentContext,
+          edgeAlert(Catcher.navigatorKey!.currentContext,
               gravity: Gravity.top,
               title: responseJsonDecode['message'].toString(),
               icon: Icons.error_outline,
@@ -162,7 +161,7 @@ class AuthRequest with ChangeNotifier {
           });
         } else {
           edgeAlert(
-            navKey.currentContext,
+            Catcher.navigatorKey!.currentContext,
             gravity: Gravity.top,
             title: responseJsonDecode['message'].toString(),
             backgroundColor: Colors.green,
@@ -208,7 +207,7 @@ class AuthRequest with ChangeNotifier {
         );
         var responseJsonDecode = json.decode(responseDataString.body);
         if (responseJsonDecode['code'] == 400) {
-          edgeAlert(navKey.currentContext,
+          edgeAlert(Catcher.navigatorKey!.currentContext,
               gravity: Gravity.top,
               title: responseJsonDecode['message'].toString(),
               icon: Icons.error_outline,
@@ -221,7 +220,7 @@ class AuthRequest with ChangeNotifier {
           });
         } else {
           edgeAlert(
-            navKey.currentContext,
+            Catcher.navigatorKey!.currentContext,
             gravity: Gravity.top,
             title: responseJsonDecode['message'].toString(),
             backgroundColor: Colors.green,
@@ -265,7 +264,7 @@ class AuthRequest with ChangeNotifier {
 
         var responseJsonDecode = json.decode(responseDataString);
         if (responseJsonDecode['code'] == 400) {
-          edgeAlert(navKey.currentContext,
+          edgeAlert(Catcher.navigatorKey!.currentContext,
               gravity: Gravity.top,
               title: responseJsonDecode['message'].toString(),
               icon: Icons.error_outline,
@@ -278,7 +277,7 @@ class AuthRequest with ChangeNotifier {
           });
         } else {
           edgeAlert(
-            navKey.currentContext,
+            Catcher.navigatorKey!.currentContext,
             gravity: Gravity.top,
             title: responseJsonDecode['messsage'].toString(),
             backgroundColor: Colors.green,

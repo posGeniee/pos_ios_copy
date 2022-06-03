@@ -11,12 +11,10 @@ import 'package:dummy_app/data/models/maintainance/temperature/temperature_model
 import 'package:dummy_app/helpers/const.dart';
 import 'package:dummy_app/helpers/helper_funtions.dart';
 import 'package:dummy_app/services/location_service.dart';
-// import 'package:catcher/catcher.dart';
+import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-import '../../main.dart';
 
 class MaintainanceApiFunction {
   getMachines(
@@ -73,7 +71,7 @@ class MaintainanceApiFunction {
 
       final MachineListModelDatum modelDatum =
           MachineListModelDatum.fromMap(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Machine Added Successfully',
           backgroundColor: Colors.green);
@@ -98,7 +96,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Machine Deleted Successfully',
           backgroundColor: Colors.red);
@@ -138,7 +136,7 @@ class MaintainanceApiFunction {
 
       final MachineListModelDatum modelDatum =
           MachineListModelDatum.fromMap(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Machine Updated Successfully',
           backgroundColor: Colors.green);
@@ -223,7 +221,7 @@ class MaintainanceApiFunction {
 
       final PartsListModelDatum modelDatum =
           PartsListModelDatum.fromMap(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Part Added Successfully',
           backgroundColor: Colors.green);
@@ -261,7 +259,7 @@ class MaintainanceApiFunction {
 
       final PartsListModelDatum modelDatum =
           PartsListModelDatum.fromMap(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Parts Updated Successfully',
           backgroundColor: Colors.green);
@@ -285,7 +283,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Part Deleted Successfully',
           backgroundColor: Colors.red);
@@ -311,7 +309,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       // print('Deleted --');
-      // edgeAlert(navKey!.currentContext,
+      // edgeAlert(Catcher.navigatorKey!.currentContext,
       //     gravity: Gravity.top,
       //     title: 'Part Deleted Successfully',
       //     backgroundColor: Colors.red);
@@ -345,7 +343,7 @@ class MaintainanceApiFunction {
 
       final PartCategoryDatum modelDatum =
           PartCategoryDatum.fromJson(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Part Added Successfully',
           backgroundColor: Colors.green);
@@ -383,7 +381,7 @@ class MaintainanceApiFunction {
 
       final PartCategoryDatum modelDatum =
           PartCategoryDatum.fromJson(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Parts Updated Successfully',
           backgroundColor: Colors.green);
@@ -410,7 +408,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Machine Deleted Successfully',
           backgroundColor: Colors.red);
@@ -486,7 +484,7 @@ class MaintainanceApiFunction {
 
       final PartOrderDatum modelDatum =
           PartOrderDatum.fromJson(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Part Added Successfully',
           backgroundColor: Colors.green);
@@ -552,7 +550,7 @@ class MaintainanceApiFunction {
 
       final TemperatureModelDatum modelDatum =
           TemperatureModelDatum.fromJson(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Part Added Successfully',
           backgroundColor: Colors.green);
@@ -578,7 +576,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Machine Deleted Successfully',
           backgroundColor: Colors.red);
@@ -665,7 +663,7 @@ class MaintainanceApiFunction {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Part Added Successfully',
           backgroundColor: Colors.green);
@@ -691,7 +689,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Schedule Deleted Successfully',
           backgroundColor: Colors.red);
@@ -725,7 +723,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       // print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Record Updated Successfully',
           backgroundColor: Colors.green);
@@ -763,7 +761,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       // print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Record Updated Successfully',
           backgroundColor: Colors.green);
@@ -797,7 +795,7 @@ class MaintainanceApiFunction {
 
       final ScheduleModelDatum modelDatum =
           ScheduleModelDatum.fromJson(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Parts Updated Successfully',
           backgroundColor: Colors.green);
@@ -872,7 +870,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       // print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Record Updated Successfully',
           backgroundColor: Colors.green);
@@ -934,7 +932,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       // print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Record Updated Successfully',
           backgroundColor: Colors.green);
@@ -962,7 +960,7 @@ class MaintainanceApiFunction {
     print('$request');
     if (response.statusCode == 200) {
       print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Trip Deleted Successfully',
           backgroundColor: Colors.red);
@@ -1026,7 +1024,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       // print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Record Updated Successfully',
           backgroundColor: Colors.green);
@@ -1072,7 +1070,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       // print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Record Updated Successfully',
           backgroundColor: Colors.green);
@@ -1102,7 +1100,7 @@ class MaintainanceApiFunction {
     print('$request');
     if (response.statusCode == 200) {
       print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Decision Deleted Successfully',
           backgroundColor: Colors.red);
@@ -1167,7 +1165,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       // print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Record Updated Successfully',
           backgroundColor: Colors.green);
@@ -1211,7 +1209,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       // print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Record Updated Successfully',
           backgroundColor: Colors.green);
@@ -1238,7 +1236,7 @@ class MaintainanceApiFunction {
     print('$request');
     if (response.statusCode == 200) {
       print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Decision Deleted Successfully',
           backgroundColor: Colors.red);
@@ -1317,7 +1315,7 @@ class MaintainanceApiFunction {
 
       final PartsListModelDatum modelDatum =
           PartsListModelDatum.fromMap(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Part Added Successfully',
           backgroundColor: Colors.green);
@@ -1364,7 +1362,7 @@ class MaintainanceApiFunction {
 
       final PartsListModelDatum modelDatum =
           PartsListModelDatum.fromMap(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Parts Updated Successfully',
           backgroundColor: Colors.green);
@@ -1391,7 +1389,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Part Deleted Successfully',
           backgroundColor: Colors.red);
@@ -1479,7 +1477,7 @@ class MaintainanceApiFunction {
 
       final PartOrderDatum modelDatum =
           PartOrderDatum.fromJson(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Part Added Successfully',
           backgroundColor: Colors.green);
@@ -1532,7 +1530,7 @@ class MaintainanceApiFunction {
 
       final PartOrderDatum modelDatum =
           PartOrderDatum.fromJson(convertTomodelMachine);
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Parts Updated Successfully',
           backgroundColor: Colors.green);
@@ -1559,7 +1557,7 @@ class MaintainanceApiFunction {
 
     if (response.statusCode == 200) {
       print('Deleted --');
-      edgeAlert(navKey.currentContext,
+      edgeAlert(Catcher.navigatorKey!.currentContext,
           gravity: Gravity.top,
           title: 'Part Deleted Successfully',
           backgroundColor: Colors.red);

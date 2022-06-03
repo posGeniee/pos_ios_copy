@@ -5,12 +5,10 @@ import 'package:dummy_app/data/models/sale_summary_model.dart';
 import 'package:dummy_app/data/models/sales_overview.dart';
 import 'package:dummy_app/helpers/const.dart';
 import 'package:dummy_app/helpers/helper_funtions.dart';
-// import 'package:catcher/catcher.dart';
+import 'package:catcher/catcher.dart';
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../main.dart';
 
 class BusinessProvider with ChangeNotifier {
   late SaleOverViewModel _saleOverViewModel;
@@ -84,7 +82,7 @@ class BusinessProvider with ChangeNotifier {
 
         var responseJsonDecode = json.decode(responseDataString);
         if (responseJsonDecode['code'] == 400) {
-          edgeAlert(navKey.currentContext,
+          edgeAlert(Catcher.navigatorKey!.currentContext,
               gravity: Gravity.top,
               title: responseJsonDecode['message'].toString(),
               icon: Icons.error_outline,
@@ -130,7 +128,7 @@ class BusinessProvider with ChangeNotifier {
 
         var responseJsonDecode = json.decode(responseDataString);
         if (responseJsonDecode['code'] == 400) {
-          edgeAlert(navKey.currentContext,
+          edgeAlert(Catcher.navigatorKey!.currentContext,
               gravity: Gravity.top,
               title: responseJsonDecode['message'].toString(),
               icon: Icons.error_outline,
