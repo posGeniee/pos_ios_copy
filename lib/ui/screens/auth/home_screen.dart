@@ -18,10 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-
-    final networkStatus = Provider.of<ConnectivityResult>(context);
-    final networkStatus2 = Provider.of<NetworkStatus>(context);
-    print("Data Connection has no Internet ${networkStatus} +  ${networkStatus2}");
+  
 
     return FutureBuilder(
       builder: (context, snapshot) {
@@ -53,7 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 userDataisSavedOrNot(BuildContext context) async {
-  final SharedPreferences userPrefrences = await SharedPreferences.getInstance();
+  final SharedPreferences userPrefrences =
+      await SharedPreferences.getInstance();
   final bool? sharedPreferencesData = userPrefrences.getBool("isRemember");
   if (sharedPreferencesData == null || sharedPreferencesData == false) {
     return 'Not Logged In';
