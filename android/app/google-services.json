@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "570035235683",
+    "project_id": "posgeniee-74bcc",
+    "storage_bucket": "posgeniee-74bcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570035235683:android:3fb3d4586f836203f54156",
+        "android_client_info": {
+          "package_name": "com.posgeniee.posgeniee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "570035235683-u7h3nksdqnv095rhav03tqf8vlgip6qj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuDPfLv5-M7sXDzmxN-PXhQpfoEw7_4mE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "570035235683-u7h3nksdqnv095rhav03tqf8vlgip6qj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

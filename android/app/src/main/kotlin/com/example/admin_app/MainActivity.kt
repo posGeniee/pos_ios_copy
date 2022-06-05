@@ -1,4 +1,4 @@
-package com.example.dummy_app
+package com.posgeniee.posgeniee
 
 import io.flutter.embedding.android.FlutterActivity
 

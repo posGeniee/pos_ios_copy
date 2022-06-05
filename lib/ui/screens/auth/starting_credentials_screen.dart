@@ -2,7 +2,7 @@ import 'package:dummy_app/ui/screens/auth/first_screen.dart';
 import 'package:dummy_app/ui/screens/auth/home_screen.dart';
 import 'package:dummy_app/ui/screens/auth/sign_in_screen.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart%20';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/widget.dart';
