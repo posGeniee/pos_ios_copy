@@ -72,7 +72,7 @@ class Datum {
 
   factory Datum.fromMap(Map<String, dynamic> json) => Datum(
     id: json["id"] == null ? null : json["id"],
-    customerGroupId: json["customer_group_id"] == null ? null : json["customer_group_id"],
+    customerGroupId: json["customer_group_id"] == null ? 0 : json["customer_group_id"],
     businessId: json["business_id"] == null ? null : json["business_id"],
     type: json["type"] == null ? null : json["type"],
     name: json["name"] == null ? '' : json["name"],

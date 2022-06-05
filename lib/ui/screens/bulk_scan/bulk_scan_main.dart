@@ -12,7 +12,7 @@ import 'package:dummy_app/ui/screens/item_search/ItemEdit/widgets/vendor_edit.da
 import 'package:edge_alerts/edge_alerts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class BulkScanMian extends StatefulWidget {
@@ -97,13 +97,13 @@ class _BulkScanMianState extends State<BulkScanMian> {
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(primary: Colors.white),
                 onPressed: () async {
-                  // await [
-                  //   Permission.camera,
-                  // ].request();
-                  // final requestAccessCamera = await Permission.camera.isGranted;
-                  // if (requestAccessCamera) {
+                  await [
+                    Permission.camera,
+                  ].request();
+                  final requestAccessCamera = await Permission.camera.isGranted;
+                  if (requestAccessCamera) {
                     Navigator.of(context).pushNamed(ScanBulkScanList.routeName);
-                  // }
+                  }
                 },
                 icon: const Icon(
                   CupertinoIcons.camera,

@@ -14,7 +14,6 @@ import '../../../helpers/widget.dart';
 import 'home_screen.dart';
 import 'dart:math' as math;
 
-
 class SecondScreen extends StatefulWidget {
   SecondScreen({Key? key}) : super(key: key);
 
@@ -23,32 +22,29 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _SecondScreenState extends State<SecondScreen> {
-
   final _formKey = GlobalKey<FormState>();
   bool isLoading = true;
   final api_link = TextEditingController();
   final RoundedLoadingButtonController _btnController =
-  RoundedLoadingButtonController();
+      RoundedLoadingButtonController();
   List<GetLocationDatum> getLocations = [];
   late int location;
 
   getLocation() async {
     late List<GetLocationDatum> locations;
-    locations = Provider
-        .of<CredentialProvider>(context, listen: false)
+    locations = Provider.of<CredentialProvider>(context, listen: false)
         .locationsListGetter;
 
     print('locations >>>>>>>>>> $locations');
 
-    if(locations.isEmpty) {
+    if (locations.isEmpty) {
       //Get Locations List Api call....
       final getLocationsList = await CredentialsApi().getLocation();
       print('getLocationsList : $getLocationsList');
       Provider.of<CredentialProvider>(context, listen: false)
           .locationsListSetter(getLocationsList);
 
-      locations = Provider
-          .of<CredentialProvider>(context, listen: false)
+      locations = Provider.of<CredentialProvider>(context, listen: false)
           .locationsListGetter;
 
       if (!mounted) return;
@@ -56,7 +52,7 @@ class _SecondScreenState extends State<SecondScreen> {
         isLoading = false;
         getLocations = locations;
       });
-    }else{
+    } else {
       if (!mounted) return;
       setState(() {
         isLoading = false;
@@ -78,99 +74,104 @@ class _SecondScreenState extends State<SecondScreen> {
       body: (isLoading)
           ? circularProgress
           : SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: double.infinity,
-          child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                // print("This is the Height ${constraints.maxHeight}");
-                return Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Image.asset('assets/logo.png'),
-                      ),
-                      const SizedBox(height: 70),
-                      Padding(
-                        padding: EdgeInsets.all(18),
-                        child: DropdownSearch<String>(
-                          mode: Mode.DIALOG,
-                          showSelectedItems: true,
-                          showSearchBox: true,
-                          items: getLocations.map((e) => e.name).toList(),
-                          validator: (value) {
-                            if (value == 'Location') {
-                              return 'Please select location from list!';
-                            }
-                            return null;
-                          },
-                          dropdownSearchDecoration: InputDecoration(
-                            labelText: "Select Location",
-                            hintText: "Location",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: buttonColor),
-                              borderRadius: BorderRadius.circular(30),
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: double.infinity,
+                child: LayoutBuilder(builder:
+                    (BuildContext context, BoxConstraints constraints) {
+                  // print("This is the Height ${constraints.maxHeight}");
+                  return Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: Image.asset('assets/logo.png'),
+                        ),
+                        const SizedBox(height: 70),
+                        Padding(
+                          padding: EdgeInsets.all(18),
+                          child: DropdownSearch<String>(
+                            popupProps: PopupProps.dialog(
+                              showSelectedItems: true,
+                              showSearchBox: true,
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF8D8D8D)),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          dropdownButtonProps: IconButtonProps(
-                              iconSize: 20,
-                              icon: Transform.rotate(
-                                  angle: 90 * math.pi / 180,
-                                  child: Icon(Icons.arrow_forward_ios)),
-                              color: buttonColor),
-                          // onChanged: print,
-                          onChanged: (locationName) {
-                            print('locationName >>>>>>>>>>> $api_link');
 
-                            getLocations.where((element) {
-                              if(element.name == locationName) {
-                                location = element.locationId;
-                                print('location >>>>>>> $location');
+                            items: getLocations.map((e) => e.name).toList(),
+                            validator: (value) {
+                              if (value == 'Location') {
+                                return 'Please select location from list!';
                               }
-                              return false;
-                            }).toList();
-                          },
-                          selectedItem: 'Location',
-                        ),
-                      ),
-                      const SizedBox(height: 70),
-                      Container(
-                        height: 100,
-                        width: 100,
-                        child: Center(
-                          child: RoundedLoadingButton(
-                            height: 60,
-                            color: buttonColor,
-                            width: constraints.maxWidth - 150,
-                            child: const Text(
-                              'Next',
+                              return null;
+                            },
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Select Location",
+                                hintText: "Location",
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: buttonColor),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFF8D8D8D)),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
                             ),
-                            controller: _btnController,
-                            onPressed: _doSomething,
+                            dropdownButtonProps: DropdownButtonProps(
+                                iconSize: 20,
+                                icon: Transform.rotate(
+                                    angle: 90 * math.pi / 180,
+                                    child: Icon(Icons.arrow_forward_ios)),
+                                color: buttonColor),
+
+                            // onChanged: print,
+                            onChanged: (locationName) {
+                              print('locationName >>>>>>>>>>> $api_link');
+
+                              getLocations.where((element) {
+                                if (element.name == locationName) {
+                                  location = element.locationId;
+                                  print('location >>>>>>> $location');
+                                }
+                                return false;
+                              }).toList();
+                            },
+                            selectedItem: 'Location',
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ),
-      ),
+                        const SizedBox(height: 70),
+                        Container(
+                          height: 100,
+                          width: 100,
+                          child: Center(
+                            child: RoundedLoadingButton(
+                              height: 60,
+                              color: buttonColor,
+                              width: constraints.maxWidth - 150,
+                              child: const Text(
+                                'Next',
+                              ),
+                              controller: _btnController,
+                              onPressed: _doSomething,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            ),
     );
   }
 
   void _doSomething() async {
     if (_formKey.currentState!.validate()) {
-
       if (!mounted) return;
       setState(() {
         isLoading = true;

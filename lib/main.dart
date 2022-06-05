@@ -7,7 +7,7 @@ import 'package:dummy_app/data/network/maintainance_provider.dart';
 import 'package:dummy_app/data/network/pos_provider.dart';
 import 'package:dummy_app/helpers/theme.dart';
 import 'package:dummy_app/services/network_service.dart';
-// import 'package:dummy_app/services/premission_services.dart';
+import 'package:dummy_app/services/premission_services.dart';
 import 'package:dummy_app/ui/screens/after_sign_in.dart';
 import 'package:dummy_app/ui/screens/auth/change_password.dart';
 import 'package:dummy_app/ui/screens/auth/change_password_after_sign.dart';
@@ -89,9 +89,9 @@ import 'package:dummy_app/ui/screens/support_ticket/list_of_ticket.dart';
 import 'package:dummy_app/ui/screens/support_ticket/support_ticket_comment.dart';
 import 'package:catcher/catcher.dart';
 // import 'package:connectivity_plus/connectivity_plus.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -100,7 +100,7 @@ import 'data/network/starting_credential_provider.dart';
 void main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   CatcherOptions debugOptions =
@@ -120,7 +120,7 @@ void main() async {
       rootWidget: const MyApp(),
       debugConfig: debugOptions,
       releaseConfig: releaseOptions);
-  // FlutterNativeSplash.remove();
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
@@ -159,16 +159,16 @@ class MyApp extends StatelessWidget {
         //   create: (_) => NetworkStatusService().networkGetterStream,
         //   initialData: ConnectivityResult.wifi,
         // ),
-        //Stream to Get the Whetherthe User is online or Offline.
+        // //Stream to Get the Whetherthe User is online or Offline.
         // StreamProvider<NetworkStatus>(
         //   create: (_) => NetworkStatusService().dataConncectionStream,
         //   initialData: NetworkStatus.offline,
         // ),
         //Stream to Get the Whether the User Accepted the Premission of the App or not.
-        // StreamProvider<PremissonChange>(
-        //   create: (_) => PremisiionServiceofApp().premissonChange,
-        //   initialData: PremissonChange.isDenied,
-        // ),
+        StreamProvider<PremissonChange>(
+          create: (_) => PremisiionServiceofApp().premissonChange,
+          initialData: PremissonChange.isDenied,
+        ),
         //For Bulk Scan
         ChangeNotifierProvider<MaintainanceProvider>(
           create: (_) => MaintainanceProvider(),

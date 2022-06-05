@@ -18,7 +18,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class ItemSearchMainPage extends StatefulWidget {
@@ -140,13 +140,13 @@ class _ItemSearchMainPageState extends State<ItemSearchMainPage> {
             ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(primary: Colors.white),
                 onPressed: () async {
-                  // await [
-                  //   Permission.camera,
-                  // ].request();
-                  // final requestAccessCamera = await Permission.camera.isGranted;
-                  // if (requestAccessCamera) {
+                  await [
+                    Permission.camera,
+                  ].request();
+                  final requestAccessCamera = await Permission.camera.isGranted;
+                  if (requestAccessCamera) {
                     Navigator.of(context).pushNamed(ScannerScreen.routeName);
-                  // }
+                  }
                 },
                 icon: const Icon(
                   CupertinoIcons.camera,

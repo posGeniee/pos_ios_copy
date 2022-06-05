@@ -45,7 +45,7 @@ class _AddNewCustomerState extends State<AddNewCustomer> {
     'Through Google',
   ];
 
-   late String token;
+  late String token;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class _AddNewCustomerState extends State<AddNewCustomer> {
                           },
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
-                              labelText: 'Customer Name',
+                            labelText: 'Customer Name',
                             hintText: 'Name',
                             hintStyle: TextStyle(fontSize: 14),
                             focusedBorder: OutlineInputBorder(
@@ -112,7 +112,7 @@ class _AddNewCustomerState extends State<AddNewCustomer> {
                             return null;
                           },
                           decoration: InputDecoration(
-                              labelText: 'Customer Mobile No',
+                            labelText: 'Customer Mobile No',
                             hintText: 'Mobile No',
                             hintStyle: TextStyle(fontSize: 14),
                             focusedBorder: OutlineInputBorder(
@@ -242,8 +242,10 @@ class _AddNewCustomerState extends State<AddNewCustomer> {
                       Padding(
                         padding: EdgeInsets.only(top: textFieldTopPadding),
                         child: DropdownSearch<String>(
-                          mode: Mode.DIALOG,
-                          showSelectedItems: true,
+                          popupProps: PopupProps.dialog(
+                            showSelectedItems: true,
+                            showSearchBox: true,
+                          ),
                           items: items,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -251,19 +253,22 @@ class _AddNewCustomerState extends State<AddNewCustomer> {
                             }
                             return null;
                           },
-                          dropdownSearchDecoration: InputDecoration(
-                            labelText: "Where do you hear about us",
-                            hintText: "Where do you hear about us",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: buttonColor),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF8D8D8D)),
-                              borderRadius: BorderRadius.circular(30),
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(
+                              labelText: "Where do you hear about us",
+                              hintText: "Where do you hear about us",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: buttonColor),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xFF8D8D8D)),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
                             ),
                           ),
-                          dropdownButtonProps: IconButtonProps(
+                          dropdownButtonProps: DropdownButtonProps(
                               iconSize: 20,
                               icon: Transform.rotate(
                                   angle: 90 * math.pi / 180,
@@ -302,10 +307,11 @@ class _AddNewCustomerState extends State<AddNewCustomer> {
       _btnController.start();
 
       ///implementation..........
-      var addCustomer = await PosModuleApi().addCustomer(token, name.text, mobile_no.text, email.text, zip_code.text, dob.text);
+      var addCustomer = await PosModuleApi().addCustomer(token, name.text,
+          mobile_no.text, email.text, zip_code.text, dob.text);
       print('addCustomer : $addCustomer');
 
-      if(addCustomer.toString().isNotEmpty){
+      if (addCustomer.toString().isNotEmpty) {
         print('Customer Added Successfully.................');
         Navigator.of(context).pop();
       }

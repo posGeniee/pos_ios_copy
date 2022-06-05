@@ -16,7 +16,7 @@ import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-// import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -388,14 +388,12 @@ class _PosMainSreenState extends State<PosMainSreen>
                 textTheme: TextTheme(subtitle1: TextStyle(color: Colors.white)),
               ),
               child: DropdownSearch<String>(
-                mode: Mode.DIALOG,
-                showSelectedItems: true,
-                items: customerListItems.isNotEmpty
-                    ? customerListItems
-                        .map((e) => '${e.name} # ${e.mobile}')
-                        .toList()
-                    : null,
-                dropdownSearchDecoration: const InputDecoration(
+                popupProps: PopupProps.dialog(
+                  showSelectedItems: true,
+                  showSearchBox: true,
+                ),
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                    dropdownSearchDecoration: const InputDecoration(
                   contentPadding:
                       EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 0),
                   labelText: "Select your customer",
@@ -409,9 +407,18 @@ class _PosMainSreenState extends State<PosMainSreen>
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(color: Colors.white),
                   ),
-                ),
-                showSearchBox: true,
-                dropdownButtonProps: const IconButtonProps(
+                )),
+                // items: customerListItems.isNotEmpty
+                //     ? customerListItems
+                //         .map((e) => '${e.name} # ${e.mobile}')
+                //         .toList()
+                //     : null,
+                items: customerListItems.isNotEmpty
+                    ? customerListItems
+                        .map((e) => '${e.name} # ${e.mobile}')
+                        .toList()
+                    : [],
+                dropdownButtonProps: DropdownButtonProps(
                   iconSize: 30,
                   icon: Icon(Icons.arrow_drop_down),
                   color: Colors.white,
@@ -420,8 +427,10 @@ class _PosMainSreenState extends State<PosMainSreen>
                   customerListItems.where((element) {
                     if ('${element.name} # ${element.mobile}' == abc) {
                       setState(() {
-                        customerPoints = double.parse(element.usedLoyaltyPoint).toStringAsFixed(2);
-                        print('onChange >>>>>>>>>>>>>>> customerPoints : $customerPoints');
+                        customerPoints = double.parse(element.usedLoyaltyPoint)
+                            .toStringAsFixed(2);
+                        print(
+                            'onChange >>>>>>>>>>>>>>> customerPoints : $customerPoints');
                       });
                     }
                     return false;
@@ -437,12 +446,13 @@ class _PosMainSreenState extends State<PosMainSreen>
               width: 50,
               child: Center(
                   child: InkWell(
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewCustomer()));
-                    },
-                    child: Icon(Icons.add_circle_outline,
-                        color: Colors.white, size: 35),
-                  ))),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AddNewCustomer()));
+                },
+                child: Icon(Icons.add_circle_outline,
+                    color: Colors.white, size: 35),
+              ))),
         ],
       ),
     );
@@ -775,16 +785,16 @@ class _SearchWidgetofPosState extends State<SearchWidgetofPos> {
               ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(primary: Colors.white),
                   onPressed: () async {
-                    // await [
-                    //   Permission.camera,
-                    // ].request();
-                    // final requestAccessCamera =
-                    //     await Permission.camera.isGranted;
-                    // if (requestAccessCamera) {
+                    await [
+                      Permission.camera,
+                    ].request();
+                    final requestAccessCamera =
+                        await Permission.camera.isGranted;
+                    if (requestAccessCamera) {
                       Navigator.of(context).pushNamed(
                         PosScanner.routeName,
                       );
-                    // }
+                    }
                   },
                   icon: const Icon(
                     CupertinoIcons.camera,

@@ -1,8 +1,10 @@
 import 'package:dummy_app/data/network/auth_request.dart';
-
+import 'package:dummy_app/main.dart';
+import 'package:dummy_app/services/network_service.dart';
 import 'package:dummy_app/ui/screens/after_sign_in.dart';
 import 'package:dummy_app/ui/screens/auth/sign_in_screen.dart';
-// import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,8 +20,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-  
-
+    // final networkStatus = Provider.of<ConnectivityResult>(context);
+    // final networkStatus2 = Provider.of<NetworkStatus>(context);
+    // print("Data Connection has no Internet ${networkStatus} +  ${networkStatus2}");
     return FutureBuilder(
       builder: (context, snapshot) {
         if (snapshot.data == "Not Logged In" &&
@@ -50,8 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 userDataisSavedOrNot(BuildContext context) async {
-  final SharedPreferences userPrefrences =
-      await SharedPreferences.getInstance();
+  final SharedPreferences userPrefrences = await SharedPreferences.getInstance();
   final bool? sharedPreferencesData = userPrefrences.getBool("isRemember");
   if (sharedPreferencesData == null || sharedPreferencesData == false) {
     return 'Not Logged In';

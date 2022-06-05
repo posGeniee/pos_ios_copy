@@ -83,9 +83,26 @@ class _ThirdScreenState extends State<ThirdScreen> {
                         Padding(
                           padding: EdgeInsets.all(18),
                           child: DropdownSearch<String>(
-                            mode: Mode.DIALOG,
-                            showSelectedItems: true,
-                            showSearchBox: true,
+                            popupProps: PopupProps.dialog(
+                              showSelectedItems: true,
+                              showSearchBox: true,
+                            ),
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Select Terminal",
+                                hintText: "Terminal",
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: buttonColor),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFF8D8D8D)),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+
                             items: getTerminals.map((e) => '${e.id}').toList(),
                             // items: terminalItems,
                             validator: (value) {
@@ -94,25 +111,14 @@ class _ThirdScreenState extends State<ThirdScreen> {
                               }
                               return null;
                             },
-                            dropdownSearchDecoration: InputDecoration(
-                              labelText: "Select Terminal",
-                              hintText: "Terminal",
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: buttonColor),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xFF8D8D8D)),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                            dropdownButtonProps: IconButtonProps(
+
+                            dropdownButtonProps: DropdownButtonProps(
                                 iconSize: 20,
                                 icon: Transform.rotate(
                                     angle: 90 * math.pi / 180,
                                     child: Icon(Icons.arrow_forward_ios)),
                                 color: buttonColor),
+
                             onChanged: (terminal_id) {
                               setState(() {
                                 terminalId = terminal_id!;
@@ -156,7 +162,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
       print('result >>>>>>>>>>> $result');
 
       if (result.toString().isNotEmpty) {
-
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("terminal_id", terminalId);
         print('prefs >>>>>>>>> ${prefs.getString('terminal_id')}');
@@ -170,7 +175,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
         if (!mounted) return;
         _btnController.stop();
       }
-
     } else {
       if (!mounted) return;
       _btnController.stop();

@@ -35,8 +35,7 @@ class _SignInScreenState extends State<SignInScreen> {
       });
       _btnController.start();
       bool isCrendentialTrue =
-          await Provider.of<AuthRequest>(context, listen: false)
-              .signInFunction(email.text, password.text);
+          await Provider.of<AuthRequest>(context, listen: false).signInFunction(email.text, password.text);
       if (isCrendentialTrue == true) {
         // Navigator.of(context).pop();
 
